@@ -1,25 +1,71 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6qx2tq8v5a7o"]
+[gd_scene load_steps=12 format=3 uid="uid://c6qx2tq8v5a7o"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://dp8v2xk5qm3nt" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/components/camera_controller.gd" id="3_camera"]
+[ext_resource type="PackedScene" uid="uid://cy2v8xp3mq1nt" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="Script" path="res://scripts/systems/enemy_spawner.gd" id="5_spawner"]
+[ext_resource type="PackedScene" uid="uid://cxy2v8mp3nq1t" path="res://scenes/enemies/enemy_base.tscn" id="6_enemy"]
+[ext_resource type="Script" path="res://scripts/systems/damage_numbers.gd" id="7_dmgnums"]
+[ext_resource type="PackedScene" uid="uid://bv3x8mp2nq1yt" path="res://scenes/ui/level_up_ui.tscn" id="8_levelup"]
+[ext_resource type="PackedScene" uid="uid://cv4x9mp3nq2bt" path="res://scenes/ui/pause_menu.tscn" id="9_pause"]
+[ext_resource type="PackedScene" uid="uid://dw5x0np4or3ct" path="res://scenes/ui/game_over_screen.tscn" id="10_gameover"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" groups=["main"]]
 script = ExtResource("1_main")
 
+[node name="World" type="Node2D" parent="."]
+
+[node name="Ground" type="ColorRect" parent="World"]
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+color = Color(0.15, 0.12, 0.18, 1)
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+
+[node name="Enemies" type="Node2D" parent="World"]
+
+[node name="Pickups" type="Node2D" parent="World"]
+
+[node name="Projectiles" type="Node2D" parent="World"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 540)
+script = ExtResource("3_camera")
+follow_smoothing = 8.0
+look_ahead_distance = 40.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource("5_spawner")
+enemy_scene = ExtResource("6_enemy")
+max_enemies = 150
+base_spawn_rate = 0.8
+spawn_rate_increase = 0.2
 
-[node name="DebugLabel" type="Label" parent="CanvasLayer"]
+[node name="DamageNumbers" type="CanvasLayer" parent="."]
+layer = 50
+script = ExtResource("7_dmgnums")
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="LevelUpUI" parent="." instance=ExtResource("8_levelup")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
+
+[node name="GameOverScreen" parent="." instance=ExtResource("10_gameover")]
+
+[node name="DebugLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="DebugLabel" type="Label" parent="DebugLayer"]
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 50.0
 offset_right = 400.0
-offset_bottom = 100.0
-text = "Grimdark Survivors - Project Initialized
-Press Tab to toggle pause
-Press E to start a test run"
+offset_bottom = 200.0
+text = "Grimdark Survivors - Development Build"
 
-[node name="FPSLabel" type="Label" parent="CanvasLayer"]
+[node name="FPSLabel" type="Label" parent="DebugLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
