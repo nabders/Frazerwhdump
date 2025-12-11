@@ -114,7 +114,7 @@ func play_sfx(sfx_name: String, volume_db: float = 0.0, pitch_scale: float = 1.0
 	player.play()
 
 
-func play_sfx_at_position(sfx_name: String, position: Vector2, volume_db: float = 0.0) -> void:
+func play_sfx_at_position(sfx_name: String, _position: Vector2, volume_db: float = 0.0) -> void:
 	# For 2D positional audio, you'd need AudioStreamPlayer2D
 	# For now, just play it normally with slight volume adjustment based on distance
 	play_sfx(sfx_name, volume_db)
