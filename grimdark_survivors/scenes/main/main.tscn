@@ -1,25 +1,48 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6qx2tq8v5a7o"]
+[gd_scene load_steps=5 format=3 uid="uid://c6qx2tq8v5a7o"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://dp8v2xk5qm3nt" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/components/camera_controller.gd" id="3_camera"]
+[ext_resource type="PackedScene" uid="uid://cy2v8xp3mq1nt" path="res://scenes/ui/hud.tscn" id="4_hud"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
+[node name="World" type="Node2D" parent="."]
+
+[node name="Ground" type="ColorRect" parent="World"]
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+color = Color(0.15, 0.12, 0.18, 1)
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+
+[node name="Enemies" type="Node2D" parent="World"]
+
+[node name="Pickups" type="Node2D" parent="World"]
+
+[node name="Projectiles" type="Node2D" parent="World"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 540)
+script = ExtResource("3_camera")
+follow_smoothing = 8.0
+look_ahead_distance = 40.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
 
-[node name="DebugLabel" type="Label" parent="CanvasLayer"]
+[node name="DebugLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="DebugLabel" type="Label" parent="DebugLayer"]
 offset_left = 10.0
-offset_top = 10.0
+offset_top = 50.0
 offset_right = 400.0
-offset_bottom = 100.0
-text = "Grimdark Survivors - Project Initialized
-Press Tab to toggle pause
-Press E to start a test run"
+offset_bottom = 200.0
+text = "Grimdark Survivors - Development Build"
 
-[node name="FPSLabel" type="Label" parent="CanvasLayer"]
+[node name="FPSLabel" type="Label" parent="DebugLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0

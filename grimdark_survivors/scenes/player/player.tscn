@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://dp8v2xk5qm3nt"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="2_health"]
+[ext_resource type="Script" path="res://scripts/components/movement_component.gd" id="3_movement"]
+[ext_resource type="Script" path="res://scripts/components/stats_component.gd" id="4_stats"]
+[ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="5_hurtbox"]
+[ext_resource type="Script" path="res://scripts/state_machines/state_machine.gd" id="6_statemachine"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 50.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_player")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.3)
+position = Vector2(0, 8)
+scale = Vector2(0.4, 0.2)
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 100
+invincibility_time = 0.5
+can_revive = true
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("3_movement")
+max_speed = 200.0
+acceleration = 2000.0
+friction = 1500.0
+knockback_resistance = 0.2
+knockback_decay = 800.0
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("4_stats")
+
+[node name="HurtboxArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("5_hurtbox")
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="HurtboxArea"]
+shape = SubResource("CircleShape2D_hurtbox")
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="PickupShape" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("6_statemachine")
+
+[node name="DodgeCooldownTimer" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="HitFlashTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
