@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxy2v8mp3nq1t"]
+
+[ext_resource type="Script" path="res://scenes/enemies/enemy_base.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="2_health"]
+[ext_resource type="Script" path="res://scripts/components/movement_component.gd" id="3_movement"]
+[ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="4_hurtbox"]
+[ext_resource type="Script" path="res://scripts/components/hitbox_component.gd" id="5_hitbox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 10.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
+radius = 14.0
+
+[node name="EnemyBase" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_enemy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 10
+invincibility_time = 0.0
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("3_movement")
+max_speed = 80.0
+acceleration = 1000.0
+friction = 500.0
+use_acceleration = false
+knockback_resistance = 0.3
+knockback_decay = 400.0
+
+[node name="HurtboxArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("4_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxArea"]
+shape = SubResource("CircleShape2D_hurtbox")
+
+[node name="HitboxArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("5_hitbox")
+damage = 5
+knockback_force = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+shape = SubResource("CircleShape2D_hitbox")
