@@ -259,7 +259,7 @@ func unpause() -> void:
 # SIGNAL HANDLERS
 # =============================================================================
 
-func _on_enemy_killed(_enemy: Node, _position: Vector2, _xp_value: int) -> void:
+func _on_enemy_killed(enemy: Node, position: Vector2, xp_value: int) -> void:
 	run_kills += 1
 
 
@@ -275,7 +275,7 @@ func _on_player_died() -> void:
 	end_run(false)
 
 
-func _on_level_up_choice_selected(_choice_index: int) -> void:
+func _on_level_up_choice_selected(choice_index: int) -> void:
 	if current_state == GameState.LEVEL_UP:
 		change_state(GameState.PLAYING)
 
@@ -292,7 +292,7 @@ func _on_player_damaged(amount: int, _source: Node) -> void:
 # =============================================================================
 
 func get_formatted_time() -> String:
-	var minutes := int(run_time) // 60
+	var minutes := int(run_time) / 60
 	var seconds := int(run_time) % 60
 	return "%02d:%02d" % [minutes, seconds]
 
