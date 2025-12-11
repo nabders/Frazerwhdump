@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6qx2tq8v5a7o"]
+[gd_scene load_steps=8 format=3 uid="uid://c6qx2tq8v5a7o"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://dp8v2xk5qm3nt" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/components/camera_controller.gd" id="3_camera"]
 [ext_resource type="PackedScene" uid="uid://cy2v8xp3mq1nt" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="Script" path="res://scripts/systems/enemy_spawner.gd" id="5_spawner"]
+[ext_resource type="PackedScene" uid="uid://cxy2v8mp3nq1t" path="res://scenes/enemies/enemy_base.tscn" id="6_enemy"]
+[ext_resource type="Script" path="res://scripts/systems/damage_numbers.gd" id="7_dmgnums"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" groups=["main"]]
 script = ExtResource("1_main")
 
 [node name="World" type="Node2D" parent="."]
@@ -29,6 +32,17 @@ color = Color(0.15, 0.12, 0.18, 1)
 script = ExtResource("3_camera")
 follow_smoothing = 8.0
 look_ahead_distance = 40.0
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource("5_spawner")
+enemy_scene = ExtResource("6_enemy")
+max_enemies = 100
+base_spawn_rate = 0.5
+spawn_rate_increase = 0.15
+
+[node name="DamageNumbers" type="CanvasLayer" parent="."]
+layer = 50
+script = ExtResource("7_dmgnums")
 
 [node name="HUD" parent="." instance=ExtResource("4_hud")]
 

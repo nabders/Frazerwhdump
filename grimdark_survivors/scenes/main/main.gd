@@ -18,16 +18,10 @@ const XPGemScene := preload("res://scenes/pickups/xp_gem.tscn")
 @onready var pickups_container: Node2D = $World/Pickups
 @onready var projectiles_container: Node2D = $World/Projectiles
 @onready var camera: CameraController = $Camera2D
+@onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var hud: HUD = $HUD
 @onready var debug_label: Label = $DebugLayer/DebugLabel
 @onready var fps_label: Label = $DebugLayer/FPSLabel
-
-# =============================================================================
-# STATE
-# =============================================================================
-
-var xp_spawn_timer: float = 0.0
-const XP_SPAWN_INTERVAL: float = 2.0  # Debug: spawn XP gems periodically
 
 # =============================================================================
 # LIFECYCLE
@@ -45,15 +39,9 @@ func _ready() -> void:
 	call_deferred("_auto_start_run")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_update_fps_label()
-
-	# Debug: spawn XP gems for testing
-	if GameManager.is_playing():
-		xp_spawn_timer += delta
-		if xp_spawn_timer >= XP_SPAWN_INTERVAL:
-			xp_spawn_timer = 0.0
-			_spawn_test_xp_gems()
+	_update_debug_label()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -61,14 +49,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		if GameManager.current_state == GameManager.GameState.MENU:
 			_start_test_run()
-
-	# Debug: Spawn XP gems manually with number keys
-	if event.is_action_pressed("select_1") and GameManager.is_playing():
-		_spawn_xp_at_random_position(1)
-	if event.is_action_pressed("select_2") and GameManager.is_playing():
-		_spawn_xp_at_random_position(5)
-	if event.is_action_pressed("select_3") and GameManager.is_playing():
-		_spawn_xp_at_random_position(25)
 
 # =============================================================================
 # SETUP
@@ -127,7 +107,7 @@ func _on_player_leveled_up(new_level: int) -> void:
 	print("[Main] Player reached level %d!" % new_level)
 
 
-func _on_enemy_killed(enemy: Node, position: Vector2, xp_value: int) -> void:
+func _on_enemy_killed(_enemy: Node, position: Vector2, xp_value: int) -> void:
 	# Spawn XP gem at enemy death position
 	spawn_xp_gem(xp_value, position)
 
@@ -135,31 +115,10 @@ func _on_enemy_killed(enemy: Node, position: Vector2, xp_value: int) -> void:
 # SPAWNING
 # =============================================================================
 
-func spawn_xp_gem(value: int, position: Vector2) -> void:
+func spawn_xp_gem(value: int, pos: Vector2) -> void:
 	var gem: XPGem = XPGemScene.instantiate()
-	gem.setup(value, position)
+	gem.setup(value, pos)
 	pickups_container.add_child(gem)
-
-
-func _spawn_test_xp_gems() -> void:
-	if player == null:
-		return
-
-	# Spawn a few XP gems around the player for testing
-	var spawn_count := randi_range(1, 3)
-	for i in spawn_count:
-		var offset := Vector2(randf_range(-300, 300), randf_range(-300, 300))
-		var spawn_pos := player.global_position + offset
-		var value := [1, 1, 1, 5, 5, 25].pick_random()  # Weighted random
-		spawn_xp_gem(value, spawn_pos)
-
-
-func _spawn_xp_at_random_position(value: int) -> void:
-	if player == null:
-		return
-
-	var offset := Vector2(randf_range(-200, 200), randf_range(-200, 200))
-	spawn_xp_gem(value, player.global_position + offset)
 
 # =============================================================================
 # UI UPDATES
@@ -167,18 +126,16 @@ func _spawn_xp_at_random_position(value: int) -> void:
 
 func _update_debug_label() -> void:
 	var state_name := GameManager.GameState.keys()[GameManager.current_state]
-	var gold := SaveManager.get_gold()
 
 	var text := "Grimdark Survivors - Dev Build\n"
-	text += "State: %s | Meta Gold: %d\n" % [state_name, gold]
 
 	if GameManager.current_state == GameManager.GameState.MENU:
-		text += "\nPress E to start"
+		text += "Press E to start"
 	elif GameManager.current_state == GameManager.GameState.PLAYING:
-		text += "\nWASD: Move | Space: Dodge"
-		text += "\n1/2/3: Spawn XP (1/5/25)"
+		text += "WASD: Move | Space: Dodge | Tab: Pause\n"
+		text += "Enemies: %d | Kills: %d" % [enemy_spawner.get_enemy_count() if enemy_spawner else 0, GameManager.run_kills]
 	elif GameManager.current_state == GameManager.GameState.PAUSED:
-		text += "\nPAUSED - Tab to resume"
+		text += "PAUSED - Tab to resume"
 
 	debug_label.text = text
 

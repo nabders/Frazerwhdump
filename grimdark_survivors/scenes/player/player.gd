@@ -36,6 +36,7 @@ signal died
 @onready var dodge_cooldown_timer: Timer = $DodgeCooldownTimer
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 @onready var hit_flash_timer: Timer = $HitFlashTimer
+@onready var weapon_manager: WeaponManager = $WeaponManager
 
 # =============================================================================
 # STATE

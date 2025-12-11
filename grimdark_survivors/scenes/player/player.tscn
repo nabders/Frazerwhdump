@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dp8v2xk5qm3nt"]
+[gd_scene load_steps=9 format=3 uid="uid://dp8v2xk5qm3nt"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="2_health"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/components/stats_component.gd" id="4_stats"]
 [ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="5_hurtbox"]
 [ext_resource type="Script" path="res://scripts/state_machines/state_machine.gd" id="6_statemachine"]
+[ext_resource type="Script" path="res://scripts/systems/weapon_manager.gd" id="7_weaponmgr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 12.0
@@ -78,3 +79,6 @@ one_shot = true
 [node name="HitFlashTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="WeaponManager" type="Node" parent="."]
+script = ExtResource("7_weaponmgr")
