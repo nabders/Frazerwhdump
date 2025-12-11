@@ -20,6 +20,9 @@ const XPGemScene := preload("res://scenes/pickups/xp_gem.tscn")
 @onready var camera: CameraController = $Camera2D
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var hud: HUD = $HUD
+@onready var level_up_ui: LevelUpUI = $LevelUpUI
+@onready var pause_menu: PauseMenu = $PauseMenu
+@onready var game_over_screen: GameOverScreen = $GameOverScreen
 @onready var debug_label: Label = $DebugLayer/DebugLabel
 @onready var fps_label: Label = $DebugLayer/FPSLabel
 

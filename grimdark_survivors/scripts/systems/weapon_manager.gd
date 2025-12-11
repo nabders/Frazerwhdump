@@ -23,7 +23,8 @@ const MAX_WEAPONS: int = 6
 
 const WEAPON_SCENES: Dictionary = {
 	"rusty_sword": preload("res://scenes/weapons/rusty_sword.tscn"),
-	# Add more weapons here
+	"magic_wand": preload("res://scenes/weapons/magic_wand.tscn"),
+	"orbiting_skulls": preload("res://scenes/weapons/orbiting_skulls.tscn"),
 }
 
 # =============================================================================
