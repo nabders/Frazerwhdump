@@ -121,9 +121,9 @@ class MagicProjectile extends Area2D:
 		var img := Image.create(16, 16, false, Image.FORMAT_RGBA8)
 		for x in 16:
 			for y in 16:
-				var dist := Vector2(x, y).distance_to(Vector2(8, 8))
+				var dist: float = Vector2(x, y).distance_to(Vector2(8, 8))
 				if dist < 6:
-					var brightness := 1.0 - (dist / 8.0)
+					var brightness: float = 1.0 - (dist / 8.0)
 					img.set_pixel(x, y, Color(0.5, 0.8, 1.0) * brightness)
 		sprite.texture = ImageTexture.create_from_image(img)
 		add_child(sprite)

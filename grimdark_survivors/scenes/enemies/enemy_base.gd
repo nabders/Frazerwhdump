@@ -113,10 +113,10 @@ func _create_placeholder_sprite() -> void:
 		for y in 32:
 			var center := Vector2(16, 16)
 			var pos := Vector2(x, y)
-			var dist := pos.distance_to(center)
+			var dist: float = pos.distance_to(center)
 
 			if dist < 14:
-				var brightness := 1.0 - (dist / 20.0)
+				var brightness: float = 1.0 - (dist / 20.0)
 				img.set_pixel(x, y, color * brightness)
 
 			# Evil eyes

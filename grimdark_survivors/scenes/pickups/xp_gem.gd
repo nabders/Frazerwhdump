@@ -93,9 +93,9 @@ func _setup_visuals() -> void:
 			var pos := Vector2(x, y)
 
 			# Diamond shape using manhattan distance
-			var dist := abs(pos.x - center.x) + abs(pos.y - center.y)
+			var dist: float = abs(pos.x - center.x) + abs(pos.y - center.y)
 			if dist < 7:
-				var brightness := 1.0 - (dist / 10.0)
+				var brightness: float = 1.0 - (dist / 10.0)
 				img.set_pixel(x, y, color * brightness)
 
 	var texture := ImageTexture.create_from_image(img)
@@ -153,7 +153,7 @@ static func create_from_value(value: int) -> XPGem:
 # ANIMATION
 # =============================================================================
 
-func _bob_animation(delta: float) -> void:
+func _bob_animation(_delta: float) -> void:
 	position.y = initial_y + sin(time_alive * bob_speed) * bob_amplitude
 
 # =============================================================================
