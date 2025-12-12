@@ -18,6 +18,7 @@ extends CanvasLayer
 func _ready() -> void:
 	layer = 30
 	visible = false
+	process_mode = Node.PROCESS_MODE_ALWAYS  # Allow input while game is paused
 	_connect_signals()
 
 
