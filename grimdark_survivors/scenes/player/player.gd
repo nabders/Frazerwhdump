@@ -145,29 +145,30 @@ func _create_placeholder_sprite() -> void:
 
 
 func _setup_state_machine() -> void:
-	# Add player states
+	# Add player states using add_state() to properly register them
 	var idle_state := preload("res://scenes/player/states/player_idle.gd").new()
 	idle_state.name = "Idle"
-	state_machine.add_child(idle_state)
+	state_machine.add_state(idle_state)
 
 	var move_state := preload("res://scenes/player/states/player_move.gd").new()
 	move_state.name = "Move"
-	state_machine.add_child(move_state)
+	state_machine.add_state(move_state)
 
 	var dodge_state := preload("res://scenes/player/states/player_dodge.gd").new()
 	dodge_state.name = "Dodge"
-	state_machine.add_child(dodge_state)
+	state_machine.add_state(dodge_state)
 
 	var hurt_state := preload("res://scenes/player/states/player_hurt.gd").new()
 	hurt_state.name = "Hurt"
-	state_machine.add_child(hurt_state)
+	state_machine.add_state(hurt_state)
 
 	var dead_state := preload("res://scenes/player/states/player_dead.gd").new()
 	dead_state.name = "Dead"
-	state_machine.add_child(dead_state)
+	state_machine.add_state(dead_state)
 
-	# Set initial state
+	# Set initial state and start it
 	state_machine.initial_state = idle_state
+	state_machine.change_state_to(idle_state)
 
 # =============================================================================
 # INPUT HANDLING

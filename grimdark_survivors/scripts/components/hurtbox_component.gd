@@ -78,15 +78,19 @@ func receive_hit(hitbox: HitboxComponent, raw_damage: int, knockback: Vector2, i
 	if not is_active or is_invincible:
 		return
 
+	# Get damage type from hitbox if provided, default to physical
+	var damage_type: String = hitbox.damage_type if hitbox else "physical"
+
 	# Calculate final damage after resistances
-	var final_damage := _calculate_final_damage(raw_damage, hitbox.damage_type)
+	var final_damage := _calculate_final_damage(raw_damage, damage_type)
 
 	# Emit hit received signal
 	hit_received.emit(hitbox, final_damage, knockback, is_crit)
 
 	# Apply damage to health component
 	if health_component and final_damage > 0:
-		health_component.take_damage(final_damage, hitbox.owner_entity)
+		var source_entity: Node = hitbox.owner_entity if hitbox else null
+		health_component.take_damage(final_damage, source_entity)
 
 	# Apply knockback to movement component
 	if movement_component and knockback != Vector2.ZERO:
