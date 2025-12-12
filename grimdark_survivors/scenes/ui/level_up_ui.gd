@@ -100,7 +100,7 @@ func show_choices(choices: Array) -> void:
 
 	# Update buttons
 	for i in MAX_CHOICES:
-		var button := choice_buttons[i]
+		var button: Button = choice_buttons[i]
 		if i < choices.size():
 			var choice: Dictionary = choices[i]
 			button.visible = true

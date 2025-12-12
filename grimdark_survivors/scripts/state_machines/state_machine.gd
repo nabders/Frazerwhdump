@@ -87,7 +87,7 @@ func add_state(state: State) -> void:
 
 func remove_state(state_name: String) -> void:
 	if state_name in states:
-		var state := states[state_name]
+		var state: State = states[state_name]
 		states.erase(state_name)
 		state.queue_free()
 
@@ -100,7 +100,7 @@ func change_state(new_state_name: String, msg: Dictionary = {}) -> void:
 		push_error("[StateMachine] State not found: %s" % new_state_name)
 		return
 
-	var new_state := states[new_state_name]
+	var new_state: State = states[new_state_name]
 	_change_state_internal(new_state, msg)
 
 

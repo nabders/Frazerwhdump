@@ -139,8 +139,8 @@ func _on_sweep_area_entered(area: Area2D) -> void:
 		is_crit = true
 
 	# Calculate knockback
-	var knockback_dir := (hurtbox.owner_entity.global_position - owner_entity.global_position).normalized()
-	var knockback := knockback_dir * cached_knockback
+	var knockback_dir: Vector2 = (hurtbox.owner_entity.global_position - owner_entity.global_position).normalized()
+	var knockback_force: Vector2 = knockback_dir * cached_knockback
 
 	# Apply hit
-	hurtbox.receive_hit(null, final_damage, knockback, is_crit)
+	hurtbox.receive_hit(null, final_damage, knockback_force, is_crit)

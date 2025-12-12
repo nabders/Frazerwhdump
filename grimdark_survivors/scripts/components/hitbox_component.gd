@@ -91,7 +91,7 @@ func _try_hit(hurtbox: HurtboxComponent) -> void:
 
 		# Check hit cooldown
 		if hit_cooldown > 0.0:
-			var time_since_hit := Time.get_ticks_msec() / 1000.0 - hit_data.last_hit_time
+			var time_since_hit: float = Time.get_ticks_msec() / 1000.0 - hit_data.last_hit_time
 			if time_since_hit < hit_cooldown:
 				return
 

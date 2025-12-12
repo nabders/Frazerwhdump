@@ -128,7 +128,7 @@ func spawn_xp_gem(value: int, pos: Vector2) -> void:
 # =============================================================================
 
 func _update_debug_label() -> void:
-	var state_name := GameManager.GameState.keys()[GameManager.current_state]
+	var state_name: String = GameManager.GameState.keys()[GameManager.current_state]
 
 	var text := "Grimdark Survivors - Dev Build\n"
 
