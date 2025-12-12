@@ -292,8 +292,8 @@ func _on_player_damaged(amount: int, _source: Node) -> void:
 # =============================================================================
 
 func get_formatted_time() -> String:
-	var minutes := int(run_time) // 60
-	var seconds := int(run_time) % 60
+	var minutes: int = int(run_time / 60)
+	var seconds: int = int(run_time) % 60
 	return "%02d:%02d" % [minutes, seconds]
 
 
