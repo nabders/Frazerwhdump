@@ -127,7 +127,7 @@ func play_sfx_random_pitch(sfx_name: String, pitch_range: float = 0.1) -> void:
 
 func _get_available_sfx_player() -> AudioStreamPlayer:
 	# Round-robin through the pool
-	var player := sfx_pool[current_sfx_index]
+	var player: AudioStreamPlayer = sfx_pool[current_sfx_index]
 	current_sfx_index = (current_sfx_index + 1) % SFX_POOL_SIZE
 
 	# If player is currently playing, stop it (oldest sound gets replaced)

@@ -132,7 +132,7 @@ func _get_available_label() -> Label:
 
 	# Pool exhausted, reuse oldest
 	if active_numbers.size() > 0:
-		var oldest := active_numbers.pop_front()
+		var oldest: Label = active_numbers.pop_front()
 		oldest.visible = false
 		return oldest
 

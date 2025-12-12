@@ -69,7 +69,7 @@ func _update_stats(stats: Dictionary) -> void:
 	text += "Damage Dealt: %d\n" % stats.get("damage_dealt", 0)
 	stats_label.text = text
 
-	var gold := stats.get("gold", 0)
+	var gold: int = stats.get("gold", 0)
 	gold_label.text = "Gold Earned: +%d" % gold
 
 

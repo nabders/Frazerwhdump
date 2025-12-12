@@ -49,9 +49,9 @@ func _update_orbit(delta: float) -> void:
 	current_angle += orbit_speed * delta
 
 	for i in skulls.size():
-		var skull := skulls[i]
-		var angle := current_angle + (TAU / skulls.size()) * i
-		var offset := Vector2(cos(angle), sin(angle)) * orbit_radius * cached_area
+		var skull: Node2D = skulls[i]
+		var angle: float = current_angle + (TAU / float(skulls.size())) * i
+		var offset: Vector2 = Vector2(cos(angle), sin(angle)) * orbit_radius * cached_area
 		skull.position = offset
 		skull.rotation = angle + PI / 2
 
